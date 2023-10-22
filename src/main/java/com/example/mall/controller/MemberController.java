@@ -24,10 +24,9 @@ public class MemberController {
 
     @GetMapping(value = "/new")
     public String memberForm(Model model){
-        model.addAttribute("MemberFormDto", new MemberFormDto());
+        model.addAttribute("memberFormDto", new MemberFormDto());
         return "member/memberForm";
     } //회원가입 페이지
-
 
     @PostMapping(value = "/new")
     public String newMember(@Valid MemberFormDto memberFormDto,
@@ -41,7 +40,7 @@ BindingResult bindingResult, Model model){
             Member member = Member.createMember(memberFormDto, passwordEncoder);
             memberService.saveMember(member);
         } catch (IllegalStateException e){
-            model.addAttribute("error message", e.getMessage());
+            model.addAttribute("errorMessage", e.getMessage());
             return "member/memberForm";
         }
 
