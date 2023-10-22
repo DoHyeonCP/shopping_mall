@@ -45,6 +45,7 @@ public class ItemRepositoryTest {
             item.setStockNumber(100);
             item.setRegTime(LocalDateTime.now());
             item.setUpdateTime(LocalDateTime.now());
+            itemRepository.save(item);
         }
         
     }
