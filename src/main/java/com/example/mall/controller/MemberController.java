@@ -28,13 +28,6 @@ public class MemberController {
         return "member/memberForm";
     } //회원가입 페이지
 
-    @PostMapping(value = "/new")
-    public String memberForm(MemberFormDto memberFormDto){
-        Member member = Member.createMember(memberFormDto, passwordEncoder);
-        memberService.saveMember(member);
-
-        return "redirect:/";
-    } // 회원가입에 성공후 메인페이지
 
     @PostMapping(value = "/new")
     public String newMember(@Valid MemberFormDto memberFormDto,
