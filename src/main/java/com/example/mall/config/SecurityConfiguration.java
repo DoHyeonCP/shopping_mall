@@ -7,15 +7,20 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 import com.example.mall.service.MemberService;
 
 @Configuration
 @EnableWebSecurity
+@EnableWebMvc
 public class SecurityConfiguration  {
 
     @Autowired
@@ -29,16 +34,26 @@ public class SecurityConfiguration  {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, HandlerMappingIntrospector introspector) throws Exception {
+        MvcRequestMatcher.Builder mvcMatcherBuilder = new MvcRequestMatcher.Builder(introspector).servletPath("/");
+
+        http.authorizeHttpRequests(authz  -> authz
+                        .requestMatchers(mvcMatcherBuilder.pattern("/")).permitAll()
+                        .requestMatchers(mvcMatcherBuilder.pattern("/members/**")).permitAll()
+                        .requestMatchers(mvcMatcherBuilder.pattern("/item/**")).permitAll()
+                        .requestMatchers(mvcMatcherBuilder.pattern("/images/**")).permitAll()
+                        .requestMatchers(mvcMatcherBuilder.pattern("/admin/**")).hasRole("ADMIN")
+                        .anyRequest().authenticated()).exceptionHandling(ex -> ex.authenticationEntryPoint(new CustomAuthenticationEntryPoint()));
+                                                
+        
         http.formLogin(form -> form
-                .loginPage("/members/login")
+                .loginPage("/members/login").permitAll()
                 .defaultSuccessUrl("/")
                 .usernameParameter("email")
                 .failureUrl("/members/login/error"))
             .logout(authz -> authz
                 .logoutRequestMatcher(new AntPathRequestMatcher("/members/logout"))
                 .logoutSuccessUrl("/"));
-
                 
         return http.build();
     }
@@ -46,6 +61,17 @@ public class SecurityConfiguration  {
     @Bean
     AuthenticationManager auth(AuthenticationConfiguration authconfig) throws Exception{
         return authconfig.getAuthenticationManager();
+    }
+
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer(){
+        
+        return (web) -> web.ignoring().requestMatchers(
+            new AntPathRequestMatcher("/css/"),
+            new AntPathRequestMatcher("/js/**"),
+            new AntPathRequestMatcher("/img/**")
+            );
+
     }
 
 }

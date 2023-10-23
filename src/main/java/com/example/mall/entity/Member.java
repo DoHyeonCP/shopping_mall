@@ -49,7 +49,7 @@ PasswordEncoder passwordEncoder){
         member.setAddress(memberFormDto.getAddress());
         String password = passwordEncoder.encode(memberFormDto.getPassword());
         member.setPassword(password);
-        member.setRole(Role.USER);
+        member.setRole(Role.ADMIN);
     
         return member;
     }
