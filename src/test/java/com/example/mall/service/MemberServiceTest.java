@@ -14,12 +14,15 @@ import com.example.mall.entity.Member;
 
 import jakarta.transaction.Transactional;
 
+
+
 @SpringBootTest
 @Transactional
 @TestPropertySource(locations="classpath:application-test.properties")
 public class MemberServiceTest {
     @Autowired
     MemberService memberService;
+
 
     @Autowired
     PasswordEncoder passwordEncoder;

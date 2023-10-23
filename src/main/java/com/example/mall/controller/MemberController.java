@@ -48,4 +48,14 @@ BindingResult bindingResult, Model model){
 
     }// 입력에 대한 검증, 실패에 대한 출력
     
+    @GetMapping(value = "/login")
+    public String loginManager(){
+        return "/member/memberLoginForm";
+    }
+
+    @GetMapping(value = "/login/error")
+    public String loginError(Model model){
+        model.addAttribute("loginErrorMsg", "아이디 또는 비밀번호를 확인해주세요");
+        return "/member/memberLoginForm";
+    }
 }
