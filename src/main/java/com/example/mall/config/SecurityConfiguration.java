@@ -40,6 +40,7 @@ public class SecurityConfiguration  {
                         .requestMatchers(mvcMatcherBuilder.pattern("")).permitAll()
                         .requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.GET,"members/**")).permitAll()
                         .requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.POST,"members/**")).permitAll()
+                        .requestMatchers(mvcMatcherBuilder.pattern("images/**")).permitAll()
                         .requestMatchers(mvcMatcherBuilder.pattern("admin/**")).hasRole("ADMIN")
                         .anyRequest().permitAll());
                 
