@@ -3,6 +3,7 @@ package com.example.mall.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -27,34 +28,37 @@ public class SecurityConfiguration  {
     MemberService memberService;
 
     
-	
-    @Bean
-    public PasswordEncoder passwordEncoder () {
-        return new BCryptPasswordEncoder();
-    }
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, HandlerMappingIntrospector introspector) throws Exception {
         MvcRequestMatcher.Builder mvcMatcherBuilder = new MvcRequestMatcher.Builder(introspector).servletPath("/");
 
+        // http.exceptionHandling(ex -> ex
+        // .authenticationEntryPoint
+        // (new CustomAuthenticationEntryPoint()));
+
         http.authorizeHttpRequests(authz  -> authz
-                        .requestMatchers(mvcMatcherBuilder.pattern("/")).permitAll()
-                        .requestMatchers(mvcMatcherBuilder.pattern("/members/**")).permitAll()
-                        .requestMatchers(mvcMatcherBuilder.pattern("/item/**")).permitAll()
-                        .requestMatchers(mvcMatcherBuilder.pattern("/images/**")).permitAll()
-                        .requestMatchers(mvcMatcherBuilder.pattern("/admin/**")).hasRole("ADMIN")
-                        .anyRequest().authenticated()).exceptionHandling(ex -> ex.authenticationEntryPoint(new CustomAuthenticationEntryPoint()));
-                                                
-        
+                        .requestMatchers(mvcMatcherBuilder.pattern("")).permitAll()
+                        .requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.GET,"members/**")).permitAll()
+                        .requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.POST,"members/**")).permitAll()
+                        .requestMatchers(mvcMatcherBuilder.pattern("admin/**")).hasRole("ADMIN")
+                        .anyRequest().permitAll());
+                
         http.formLogin(form -> form
-                .loginPage("/members/login").permitAll()
+                .permitAll()
+                .loginPage("/members/login")
                 .defaultSuccessUrl("/")
                 .usernameParameter("email")
-                .failureUrl("/members/login/error"))
+                .failureUrl("/members/login/error")
+                )
             .logout(authz -> authz
                 .logoutRequestMatcher(new AntPathRequestMatcher("/members/logout"))
                 .logoutSuccessUrl("/"));
-                
+        
+        
+                                                
+        
+        
+
         return http.build();
     }
 
@@ -71,7 +75,12 @@ public class SecurityConfiguration  {
             new AntPathRequestMatcher("/js/**"),
             new AntPathRequestMatcher("/img/**")
             );
-
     }
+
+    @Bean
+    public PasswordEncoder passwordEncoder () {
+        return new BCryptPasswordEncoder();
+    }
+
 
 }
