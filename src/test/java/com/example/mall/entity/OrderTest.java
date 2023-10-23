@@ -13,6 +13,7 @@ import org.springframework.test.context.TestPropertySource;
 import com.example.mall.constant.ItemSellStatus;
 import com.example.mall.repository.ItemRepository;
 import com.example.mall.repository.MemberRepository;
+import com.example.mall.repository.OrderItemRepository;
 import com.example.mall.repository.OrderRepository;
 
 import jakarta.persistence.EntityManager;
@@ -102,5 +103,21 @@ public class OrderTest {
         Order order = this.createOrder();
         order.getOrderItems().remove(0);
         em.flush();
+    }
+
+    @Autowired
+    OrderItemRepository orderItemRepository;
+
+    @Test
+    @DisplayName("지연 로딩 테스트")
+    public void lazyLoadingTest(){
+        Order order = this.createOrder();
+        Long orderItemId = order.getOrderItems().get(0).getId();
+        em.flush();
+        em.clear();
+
+        OrderItem orderItem = orderItemRepository.findById(orderItemId)
+            .orElseThrow(EntityNotFoundException::new);
+        System.out.println("Order class : " + orderItem.getOrder().getClass());
     }
 }
