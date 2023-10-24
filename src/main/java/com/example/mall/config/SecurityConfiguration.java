@@ -72,7 +72,7 @@ public class SecurityConfiguration  {
     public WebSecurityCustomizer webSecurityCustomizer(){
         
         return (web) -> web.ignoring().requestMatchers(
-            new AntPathRequestMatcher("/css/"),
+            new AntPathRequestMatcher("/static/css/**"),
             new AntPathRequestMatcher("/js/**"),
             new AntPathRequestMatcher("/img/**")
             );

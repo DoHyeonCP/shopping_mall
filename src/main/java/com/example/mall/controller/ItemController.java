@@ -14,12 +14,13 @@ import com.example.mall.dto.ItemFormDto;
 import com.example.mall.service.ItemService;
 
 import jakarta.validation.Valid;
-import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Controller
+@RequiredArgsConstructor
 public class ItemController {
 
-    @NonNull private ItemService itemService;
+    private final ItemService itemService;
 
 
     @GetMapping(value = "/admin/item/new")
@@ -29,7 +30,7 @@ public class ItemController {
     }
 
     @PostMapping(value = "/admin/item/new")
-    public String itemnew(@Valid ItemFormDto itemFormDto, BindingResult bindingResult, Model model, @RequestParam("itemimgFile") List<MultipartFile> itemImgFileList){
+    public String itemnew(@Valid ItemFormDto itemFormDto, BindingResult bindingResult, Model model, @RequestParam("itemImgFile") List<MultipartFile> itemImgFileList){
 
         if(bindingResult.hasErrors()){
             return "item/itemForm";

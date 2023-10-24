@@ -13,6 +13,6 @@ public class WebMvcConfig implements WebMvcConfigurer{
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry){
         registry.addResourceHandler("/images/**")
-                .addResourceLocations(uploadPath);
+                .addResourceLocations(uploadPath); // 저장될 파일을 불러올 루트 경로
     }
 }

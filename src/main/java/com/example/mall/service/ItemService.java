@@ -9,10 +9,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.mall.dto.ItemFormDto;
 import com.example.mall.entity.Item;
 import com.example.mall.entity.ItemImg;
-import com.example.mall.repository.ItemImgRepository;
 import com.example.mall.repository.ItemRepository;
 
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -20,8 +18,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ItemService {
     private final ItemRepository itemRepository;
-    @NonNull private ItemImgService itemImgService;
-    @NonNull private ItemImgRepository itemImgRepository;
+    private final ItemImgService itemImgService;
+    // private final ItemImgRepository itemImgRepository;
 
     public Long saveItem(ItemFormDto itemFormDto, List<MultipartFile> itemImgFileList) throws Exception{
         //상품등록

@@ -15,14 +15,14 @@ public class FileService {
 
     public String uploadFile(String uploadPath, String originalFileName, byte[] fileData)
     throws Exception{
-        UUID uuid = UUID.randomUUID();
+        UUID uuid = UUID.randomUUID(); // 서로다른 개체를 구별하기 위한 ID
         String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
         String savedFileName = uuid.toString() + extension;
         String fileUploadFullUrl = uploadPath + "/" + savedFileName;
-        FileOutputStream fos = new FileOutputStream(fileUploadFullUrl);
+        FileOutputStream fos = new FileOutputStream(fileUploadFullUrl); // 바이트단위 출력을 내보내는
         fos.write(fileData);
         fos.close();
-        return savedFileName;
+        return savedFileName; // 업로드된 파일의 이름 반환
     }
 
     public void deleteFile(String filePath) throws Exception{

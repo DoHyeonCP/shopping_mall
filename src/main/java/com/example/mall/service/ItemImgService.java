@@ -23,9 +23,9 @@ public class ItemImgService {
     private  final FileService fileService;
 
     public void saveItemImg(ItemImg itemImg, MultipartFile itemImgFile) throws Exception{
-        String oriImgName = itemImgFile.getOriginalFilename();
-        String imgName = "";
-        String imgUrl = "";
+        String oriImgName = itemImgFile.getOriginalFilename(); // 업로드했던 상품 이미지 파일의 원래 이름
+        String imgName = ""; // 실제 로컬에 저장된 상품 이미지의 파일이름
+        String imgUrl = ""; // 업로드 결과 로컬에 저장된 상품 이미지 파일을 불러올 경로
 
         if(!StringUtils.isEmpty(oriImgName)){
             imgName = fileService.uploadFile(itemImgLocation, oriImgName, itemImgFile.getBytes());
