@@ -37,6 +37,9 @@ public class SecurityConfiguration  {
         // (new CustomAuthenticationEntryPoint()));
 
         http.authorizeHttpRequests(authz  -> authz
+                        // .requestMatchers(new AntPathRequestMatcher("/resources/**")).permitAll()
+                        // .requestMatchers(new AntPathRequestMatcher("/js/**")).permitAll()
+                        // .requestMatchers(new AntPathRequestMatcher("/img/**")).permitAll()
                         .requestMatchers(mvcMatcherBuilder.pattern("")).permitAll()
                         .requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.GET,"members/**")).permitAll()
                         .requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.POST,"members/**")).permitAll()
@@ -72,7 +75,7 @@ public class SecurityConfiguration  {
     public WebSecurityCustomizer webSecurityCustomizer(){
         
         return (web) -> web.ignoring().requestMatchers(
-            new AntPathRequestMatcher("/static/css/**"),
+            new AntPathRequestMatcher("/css/**"),
             new AntPathRequestMatcher("/js/**"),
             new AntPathRequestMatcher("/img/**")
             );
@@ -82,6 +85,5 @@ public class SecurityConfiguration  {
     public PasswordEncoder passwordEncoder () {
         return new BCryptPasswordEncoder();
     }
-
 
 }
