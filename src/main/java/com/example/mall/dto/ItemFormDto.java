@@ -9,6 +9,7 @@ import com.example.mall.constant.ItemSellStatus;
 import com.example.mall.entity.Item;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,20 +18,22 @@ public class ItemFormDto {
     private Long id;
 
     @NotBlank(message = "상품명은 필수 입력 값입니다.")
-    private String ItemNm;
+    private String itemNm;
 
-    @NotBlank(message = "가격은 필수 입력 값입니다.")
+    @NotNull(message = "가격은 필수 입력 값입니다.")
     private Integer price;
 
     @NotBlank(message = "이름은 필수 입력 값입니다.")
-    private String ItemDetail;
+    private String itemDetail;
 
-    @NotBlank(message = "재고 필수 입력 값입니다.")
+    @NotNull(message = "재고는 필수 입력 값입니다.")
     private Integer stockNumber;
 
     private ItemSellStatus itemSellStatus;
 
     private List<ItemImgDto> itemImgDtoList = new ArrayList<>();
+
+    private List<Long> itemImgIds = new ArrayList<>();
 
     private static ModelMapper modelMapper = new ModelMapper();
 
