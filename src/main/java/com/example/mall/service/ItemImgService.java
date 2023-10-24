@@ -51,6 +51,7 @@ public class ItemImgService {
             String imgName = fileService.uploadFile(itemImgLocation,
             oriImgName, itemImgFile.getBytes());
             String imgUrl = "/images/item/" + imgName;
+            savedItemImg.updateItemImg(oriImgName, imgName, imgUrl);
 
         }
     }
