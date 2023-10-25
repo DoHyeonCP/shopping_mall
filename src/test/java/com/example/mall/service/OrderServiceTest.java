@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
 import com.example.mall.constant.ItemSellStatus;
+import com.example.mall.constant.OrderStatus;
 import com.example.mall.dto.OrderDto;
 import com.example.mall.entity.Item;
 import com.example.mall.entity.Member;
@@ -75,6 +76,27 @@ public class OrderServiceTest {
 
         int totalPrice = orderDto.getCount()*item.getPrice();
         assertEquals(totalPrice, order.getTotalPrice());
+
+    }
+
+    @Test
+    @DisplayName(value = "주문 취소 테스트")
+    public void cancelOrder(){
+        Item item = saveItem();
+        Member member = saveMember();
+
+        OrderDto orderDto = new OrderDto();
+        orderDto.setCount(10);
+        orderDto.setItemId(item.getId());
+        Long orderId = orderService.order(orderDto, member.getEmail());
+
+        Order order = orderRepository.findById(orderId)
+            .orElseThrow(EntityNotFoundException::new); //이함수를 사용하지 않으면 왜 선언안되는지 알아내기
+        orderService.cancelOrder(orderId);
+
+        assertEquals(OrderStatus.CANCEL, order.getOrderStatus());
+        assertEquals(100, item.getStockNumber());
+
 
     }
 }
