@@ -69,7 +69,7 @@ public class CartServiceTest {
         
         assertEquals(item.getId(), cartItem.getItem().getId());
         assertEquals(cartItemDto.getCount(), cartItem.getCount());
- 
+        
     }
 
     

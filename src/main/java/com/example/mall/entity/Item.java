@@ -1,7 +1,5 @@
 package com.example.mall.entity;
 
-import java.time.LocalDateTime;
-
 import com.example.mall.constant.ItemSellStatus;
 import com.example.mall.dto.ItemFormDto;
 import com.example.mall.exception.OutOfStockException;
@@ -46,10 +44,6 @@ public class Item extends BaseEntity{
 
     @Enumerated(EnumType.STRING)
     private ItemSellStatus itemSellStatus; //상품 판매 상태
-
-    private LocalDateTime regTime; //등록시간
-    
-    private LocalDateTime updateTime; // 수정시간
 
     public void updateItem(ItemFormDto itemFormDto){
         this.itemNm = itemFormDto.getItemNm();
