@@ -10,8 +10,11 @@ import org.thymeleaf.util.StringUtils;
 
 import com.example.mall.constant.ItemSellStatus;
 import com.example.mall.dto.ItemSearchDto;
+import com.example.mall.dto.MainItemDto;
+import com.example.mall.dto.QMainItemDto;
 import com.example.mall.entity.Item;
 import com.example.mall.entity.QItem;
+import com.example.mall.entity.QItemImg;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -88,4 +91,49 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
 
         return new PageImpl<>(content, pageable, total);
     }
+
+    private BooleanExpression itemNmLike(String searchQuery){
+        return StringUtils.isEmpty(searchQuery) ?
+        null : QItem.item.itemNm.like("%" + searchQuery + "$");
+    }
+
+    @Override
+    public Page<MainItemDto> getMainItemPage(ItemSearchDto itemSearchDto, Pageable pageable){
+        QItem item = QItem.item;
+        QItemImg itemImg = QItemImg.itemImg;
+
+        JPAQuery<MainItemDto> results = queryFactory
+            .select(
+                new QMainItemDto(
+                    item.id,
+                    item.itemNm,
+                    item.itemDetail,
+                    itemImg.imgUrl,
+                    item.price)
+            )
+            .from(itemImg)
+            .join(itemImg.item, item)
+            .where(itemImg.repimgYn.eq("Y"))
+            .where(itemNmLike(itemSearchDto.getSearchQuery()))
+            .orderBy(item.id.desc());
+            
+
+        List<MainItemDto> content = results
+            .offset(pageable.getOffset())
+            .limit(pageable.getPageSize())
+            .fetch();
+        
+        long total = queryFactory
+            .select(item.id.count())
+            .from(itemImg)
+            .join(itemImg.item, item)
+            .where(itemImg.repimgYn.eq("Y"))
+            .where(itemNmLike(itemSearchDto.getSearchQuery())) // Assuming this is a valid method
+            .fetchOne();
+
+
+        return new PageImpl<>(content, pageable, total);
+    }
+
+    
 }

@@ -36,7 +36,7 @@ public class Order {
     private LocalDateTime orderDate; // 주문일
 
     @Enumerated(EnumType.STRING)
-    private OrderStatus OrderStatus; // 주문 상태
+    private OrderStatus orderStatus; // 주문 상태
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<OrderItem> orderItems = new ArrayList<>();
@@ -44,4 +44,28 @@ public class Order {
     private LocalDateTime regTime;
 
     private LocalDateTime updateTime;
+
+    public void addOrderItem(OrderItem orderItem){
+        orderItems.add(orderItem);
+        orderItem.setOrder(this);
+    }
+
+    public static Order createOrder(Member member,List<OrderItem> orderItemList){
+        Order order = new Order();
+        order.setMember(member);
+        for(OrderItem orderItem : orderItemList){
+            order.addOrderItem(orderItem);
+        }
+        order.setOrderStatus(OrderStatus.ORDER);
+        order.setOrderDate(LocalDateTime.now());
+        return order;
+    }
+
+    public int getTotalPrice(){
+        int totalPrice = 0;
+        for(OrderItem orderItem : orderItems){
+            totalPrice += orderItem.getTotalPrice();
+        }
+        return totalPrice;
+    }
 }
