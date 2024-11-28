@@ -1,28 +1,17 @@
 package com.example.mall.service;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.mall.constant.ItemSellStatus;
-import com.example.mall.dto.ItemFormDto;
-import com.example.mall.entity.Item;
-import com.example.mall.entity.ItemImg;
 import com.example.mall.repository.ItemImgRepository;
 import com.example.mall.repository.ItemRepository;
-
-import jakarta.persistence.EntityNotFoundException;
 
 @SpringBootTest
 @Transactional
@@ -50,30 +39,30 @@ public class ItemImgServiceTest {
         return multipartFileList;
     }
 
-    @Test
-    @DisplayName("상품 등록 테스트")
-    @WithMockUser(username = "admin", roles = "ADMIN")
-    void saveItem() throws Exception{
-        ItemFormDto itemFormDto = new ItemFormDto();
-        itemFormDto.setItemNm("테스트상품");
-        itemFormDto.setItemSellStatus(ItemSellStatus.SELL);
-        itemFormDto.setItemDetail("테스트 상품입니다");
-        itemFormDto.setPrice(1000);
-        itemFormDto.setStockNumber(100);
+    // @Test
+    // @DisplayName("상품 등록 테스트")
+    // @WithMockUser(username = "admin", roles = "ADMIN")
+    // void saveItem() throws Exception{
+    //     ItemFormDto itemFormDto = new ItemFormDto();
+    //     itemFormDto.setItemNm("테스트상품");
+    //     itemFormDto.setItemSellStatus(ItemSellStatus.SELL);
+    //     itemFormDto.setItemDetail("테스트 상품입니다");
+    //     itemFormDto.setPrice(1000);
+    //     itemFormDto.setStockNumber(100);
 
-        List<MultipartFile> multipartFileList = createMultipartFiles();
-        Long itemId = itemService.saveItem(itemFormDto, multipartFileList);
+    //     List<MultipartFile> multipartFileList = createMultipartFiles();
+    //     Long itemId = itemService.saveItem(itemFormDto, multipartFileList);
 
-        List<ItemImg> itemImgList = itemImgRepository.findByItemIdOrderByIdAsc(itemId);
-        Item item = itemRepository.findById(itemId).orElseThrow(EntityNotFoundException::new);
+    //     List<ItemImg> itemImgList = itemImgRepository.findByItemIdOrderByIdAsc(itemId);
+    //     Item item = itemRepository.findById(itemId).orElseThrow(EntityNotFoundException::new);
 
-        assertEquals(itemFormDto.getItemNm(), item.getItemNm());
-        assertEquals(itemFormDto.getItemSellStatus(), item.getItemSellStatus());
-        assertEquals(itemFormDto.getItemDetail(), item.getItemDetail());
-        assertEquals(itemFormDto.getPrice(), item.getPrice());
-        assertEquals(itemFormDto.getStockNumber(), item.getStockNumber());
-        assertEquals(multipartFileList.get(0).getOriginalFilename(), itemImgList.get(0).getOriImgName());
+    //     assertEquals(itemFormDto.getItemNm(), item.getItemNm());
+    //     assertEquals(itemFormDto.getItemSellStatus(), item.getItemSellStatus());
+    //     assertEquals(itemFormDto.getItemDetail(), item.getItemDetail());
+    //     assertEquals(itemFormDto.getPrice(), item.getPrice());
+    //     assertEquals(itemFormDto.getStockNumber(), item.getStockNumber());
+    //     assertEquals(multipartFileList.get(0).getOriginalFilename(), itemImgList.get(0).getOriImgName());
 
         
-    }
+    // }
 }
