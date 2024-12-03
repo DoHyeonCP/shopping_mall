@@ -28,13 +28,13 @@ services:
   jenkins:
     image: jenkins/jenkins:lts
     ports:
-      - "8081:8000"
+      - "8081:8080"
       - "50000:50000"
     volumes:
       - jenkins-data:/var/jenkins_home
     environment:
-      JAVA_OPTS: "-Djenkins.install.runSetupWizard=false"
-  
+      TZ: "Asia/Seoul"
+
 
 volumes:
   db-data:
