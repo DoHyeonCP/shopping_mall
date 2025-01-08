@@ -20,7 +20,7 @@ public class UiTest {
 
     @BeforeEach
     public void setup() {
-        System.setProperty("webdriver.chrome.driver", "/selenium-webdriver/chromedriver");
+        System.setProperty("webdriver.chrome.driver", "selenium-webdriver/chromedriver-win64(131.0.6778.85)/chromedriver.exe");
         driver = new ChromeDriver();
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         driver.manage().window().maximize();
