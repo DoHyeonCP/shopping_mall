@@ -1,22 +1,39 @@
 package com.example.mall.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.eq;
+
+import java.util.List;
+
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
+import com.example.mall.dto.OrderDto;
+import com.example.mall.entity.Order;
+import com.example.mall.entity.OrderItem;
 import com.example.mall.constant.ItemSellStatus;
+import com.example.mall.constant.OrderStatus;
 import com.example.mall.entity.Item;
 import com.example.mall.entity.Member;
 import com.example.mall.repository.ItemRepository;
 import com.example.mall.repository.MemberRepository;
 import com.example.mall.repository.OrderRepository;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 @SpringBootTest
 @Transactional
 @TestPropertySource(locations = "classpath:application-test.properties")
 public class OrderServiceTest {
+    private static final Logger logger = LoggerFactory.getLogger(OrderServiceTest.class);
+
     @Autowired
     private OrderService orderService;
 
@@ -56,16 +73,25 @@ public class OrderServiceTest {
     //     orderDto.setCount(10);
     //     orderDto.setItemId(item.getId());
 
-    //     Long orderId = orderService.order(orderDto, member.getEmail());
+        
 
-    //     Order order = orderRepository.findById(orderId)
+    //     Long orderId = orderService.order(orderDto, member.getEmail());
+     
+    //     try {
+    //         Order order = orderRepository.findById(orderId)
     //             .orElseThrow(EntityNotFoundException::new);
 
-    //     List<OrderItem> orderItems = order.getOrderItems();
+    //         List<OrderItem> orderItems = order.getOrderItems();
 
-    //     int totalPrice = orderDto.getCount()*item.getPrice();
-    //     assertEquals(totalPrice, order.getTotalPrice());
+    //         int totalPrice = orderDto.getCount()*item.getPrice();
+    //         assertEquals(totalPrice, order.getTotalPrice());
+        
 
+    //     } catch (Exception e){
+    //         logger.error("Exception occureed while create", e);
+    //         throw e;
+    //     }
+        
     // }
 
     // @Test

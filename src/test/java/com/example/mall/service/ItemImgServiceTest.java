@@ -1,17 +1,28 @@
 package com.example.mall.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.mall.constant.ItemSellStatus;
+import com.example.mall.dto.ItemFormDto;
+import com.example.mall.entity.Item;
+import com.example.mall.entity.ItemImg;
 import com.example.mall.repository.ItemImgRepository;
 import com.example.mall.repository.ItemRepository;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @SpringBootTest
 @Transactional

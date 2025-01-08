@@ -56,7 +56,9 @@ dependencies {
 
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
+	implementation 'org.seleniumhq.selenium:selenium-java:4.10.0'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
 }
 tasks.named('test') {
 	useJUnitPlatform()
